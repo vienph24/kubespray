@@ -4,7 +4,7 @@
 # dashboard_enabled: false
 
 # Helm deployment
-helm_enabled: false
+helm_enabled: true
 
 # Registry deployment
 registry_enabled: false
@@ -13,7 +13,7 @@ registry_enabled: false
 # registry_disk_size: "10Gi"
 
 # Metrics Server deployment
-metrics_server_enabled: false
+metrics_server_enabled: true
 # metrics_server_container_port: 10250
 # metrics_server_kubelet_insecure_tls: true
 # metrics_server_metric_resolution: 15s
@@ -101,11 +101,11 @@ gateway_api_enabled: false
 # gateway_api_experimental_channel: false
 
 # Nginx ingress controller deployment
-ingress_nginx_enabled: false
+ingress_nginx_enabled: true
 # ingress_nginx_host_network: false
-# ingress_nginx_service_type: LoadBalancer
-# ingress_nginx_service_nodeport_http: 30080
-# ingress_nginx_service_nodeport_https: 30081
+ingress_nginx_service_type: NodePort
+ingress_nginx_service_nodeport_http: 30080
+ingress_nginx_service_nodeport_https: 30443
 ingress_publish_status_address: ""
 # ingress_nginx_nodeselector:
 #   kubernetes.io/os: "linux"
@@ -239,7 +239,7 @@ metallb_namespace: "metallb-system"
 #           address_pool:
 #             - pool2
 
-argocd_enabled: false
+argocd_enabled: true
 # argocd_version: v2.11.0
 # argocd_namespace: argocd
 # Default password:
@@ -252,7 +252,7 @@ argocd_enabled: false
 # Use the following var to set admin password
 # argocd_admin_password: "password"
 # Use the following var to enable insecure mode for ArgoCD server (not recommended)
-# argocd_server_insecure: true
+argocd_server_insecure: true
 
 # The plugin manager for kubectl
 krew_enabled: false
