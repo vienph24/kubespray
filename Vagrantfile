@@ -44,10 +44,11 @@ if File.exist?(CONFIG)
 end
 
 # Defaults for config options defined in CONFIG
-$num_instances ||= 3
+$public_network_interface ||= "wlp4s0"
+$num_instances ||= 2
 $instance_name_prefix ||= "k8s"
 $vm_gui ||= false
-$vm_memory ||= 2048
+$vm_memory ||= 4*1024
 $vm_cpus ||= 2
 $shared_folders ||= {}
 $forwarded_ports ||= {}
@@ -60,9 +61,9 @@ $multi_networking ||= "False"
 $download_run_once ||= "True"
 $download_force_cache ||= "False"
 # The first three nodes are etcd servers
-$etcd_instances ||= [$num_instances, 3].min
+$etcd_instances ||= [$num_instances, 1].min
 # The first two nodes are kube masters
-$kube_master_instances ||= [$num_instances, 3].min
+$kube_master_instances ||= [$num_instances, 2].min
 # All nodes are kube nodes
 $kube_node_instances ||= $num_instances
 # The following only works when using the libvirt provider
@@ -195,6 +196,8 @@ Vagrant.configure("2") do |config|
           end
         end
       end
+
+      node.vm.network "public_network", bridge: $public_network_interface
 
       if $expose_docker_tcp
         node.vm.network "forwarded_port", guest: 2375, host: ($expose_docker_tcp + i - 1), auto_correct: true
