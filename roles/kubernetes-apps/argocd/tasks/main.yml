@@ -105,3 +105,24 @@
   when:
     - argocd_admin_password is defined
     - "inventory_hostname == groups['kube_control_plane'][0]"
+
+- name: Kubernetes Apps | Set ArgoCD server insecure mode
+  become: true
+  shell: |
+    {{ bin_dir }}/kubectl --kubeconfig /etc/kubernetes/admin.conf -n {{ argocd_namespace }} patch configmap argocd-cmd-params-cm -p \
+      '{
+        "data": {
+          "server.insecure": "{{ argocd_server_insecure }}"
+        }
+      }'
+  when:
+    - argocd_server_insecure is defined
+    - "inventory_hostname == groups['kube_control_plane'][0]"
+
+- name: Kubernetes Apps | Restart ArgoCD server to apply insecure mode
+  become: true
+  shell: |
+    {{ bin_dir }}/kubectl --kubeconfig /etc/kubernetes/admin.conf -n {{ argocd_namespace }} rollout restart deployment argocd-server
+  when:
+    - argocd_server_insecure is defined
+    - "inventory_hostname == groups['kube_control_plane'][0]"

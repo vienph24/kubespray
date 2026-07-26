@@ -251,6 +251,8 @@ argocd_enabled: false
 #   ---
 # Use the following var to set admin password
 # argocd_admin_password: "password"
+# Use the following var to enable insecure mode for ArgoCD server (not recommended)
+# argocd_server_insecure: true
 
 # The plugin manager for kubectl
 krew_enabled: false
